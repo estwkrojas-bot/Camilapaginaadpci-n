@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio Frontera Animal - Cúcuta/Venezuela</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Nunito+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Modelo cargar -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <style>
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            background-color: transparent;
+            --progress-bar-color: transparent;  /* Oculta la barra de progreso */
+            --progress-mask: transparent;
+        }
+    </style>
+
+    <style>
+        :root {
+            --primary: #A8CBB7;
+            --primary-dark: #8FB8A4;
+            --bg-sand: #F5F1E8;
+            --text-main: #2F3A4A;
+            --text-muted: #6B7280;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-sand);
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: var(--bg-sand);
+        }
+
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(47, 58, 74, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .wa-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 50;
+            transition: transform 0.3s ease;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.1);
+        }
+
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 0.5rem;
+            z-index: 60;
+        }
+
+        .lang-dropdown:hover .lang-menu {
+            display: block;
+        }
+
+        .store-item img {
+            transition: transform 0.5s ease;
+        }
+        .store-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Estilos específicos para el Carrito */
+        #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .cart-btn-trigger {
+            position: relative;
+            background: #f3f4f6;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .cart-btn-trigger:hover {
+            background: #e5e7eb;
+            transform: scale(1.05);
+        }
+
+        /* Estilos del Carrusel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            aspect-ratio: 4/3;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white/80;
+            backdrop-filter: blur(4px);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            border: none;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+        .carousel-btn:hover { background: white; transform: translateY(-50%) scale(1.1); }
+        .carousel-btn.prev { left: 1rem; }
+        .carousel-btn.next { right: 1rem; }
+        .carousel-dots {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: white/50;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .dot.active { background: white; width: 25px; border-radius: 10px; }
+
+        /* NUEVOS ESTILOS MODULARES 3D (CENTRADOS) */
+        #donar3d-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(47, 58, 74, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .donar3d-container {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            height: 85vh;
+            border-radius: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .donar3d-container { flex-direction: row; }
+            .donar3d-canvas-wrapper { 
+                width: 60%; 
+                height: 100%; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .donar3d-controls { width: 40%; height: 100%; }
+        }
+
+        .donar3d-canvas-wrapper {
+            background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+            position: relative;
+            flex-grow: 1;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .donar3d-canvas-wrapper:active { cursor: grabbing; }
+
+        .donar3d-controls {
+            padding: 2.5rem;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 1px solid #f1f5f9;
+        }
+
+        .donar3d-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+        .donar3d-close:hover { background: #fee2e2; color: #ef4444; transform: scale(1.1); }
+        
+        .donar3d-input-group { margin-bottom: 1.5rem; }
+        .donar3d-label { display: block; font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .donar3d-input { width: 100%; padding: 0.75rem 1rem; background: #f8fafc; border: 2px solid transparent; border-radius: 0.75rem; outline: none; transition: all 0.2s; font-weight: 600; }
+        .donar3d-input:focus { border-color: var(--primary); background: white; }
+        
+        .donar3d-color-picker { width: 100%; height: 50px; padding: 0.25rem; background: #f8fafc; border-radius: 0.75rem; border: none; cursor: pointer; }
+    </style>
+</head>
+
+<link rel="stylesheet" href="css/style.css">
+
+<body>
+
+    <div id="particles-js"></div>
+
+    <!-- Navegación -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                <i class="fas fa-paw text-2xl text-[#A8CBB7]"></i>
+                <span class="font-bold text-xl tracking-tight">FRONTERA ANIMAL</span>
+            </div>
+            
+            <!-- sonido de boton -->
+            <div class="hidden md:flex items-center gap-8 font-medium">
+                <button 
+                onclick="playSound(); navigateTo('home')" 
+                data-es="Inicio" 
+                data-en="Home"
+                >
+                Inicio
+                </button>
+
+                <script>
+                const sound1 = new Audio("music/perro.mpeg");
+
+                function playSound() {
+                    sound1.currentTime = 0;
+                    sound1.play();
+                }
+                </script>
+               
+                <button 
+                onclick="playSound(); navigateTo('adopt')" 
+                data-es="Adoptar" 
+                data-en="Adopt"
+                >
+                Adoptar
+                </button>
+
+                <script>
+                const sound2 = new Audio("music/perro.mpeg");
+
+                function playSound() {
+                    sound2.currentTime = 0;
+                    sound2.play();
+                }
+                </script>
+                
+                <button 
+                onclick="playSound(); navigateTo('help')" 
+                data-es="¿Cómo ayudar?" 
+                data-en="help"
+                >
+                ¿Cómo ayudar?
+                </button>
+
+                <script>
+                const sound3 = new Audio("music/perro.mpeg");
+
+                function playSound() {
+                    sound3.currentTime = 0;
+                    sound3.play();
+                }
+                </script>
+
+                <button 
+                onclick="playSound(); navigateTo('store')" 
+                data-es="Tienda" 
+                data-en="store"
+                >
+                Tienda
+                </button>
+
+                <script>
+                const sound4 = new Audio("music/perro.mpeg");
+
+                function playSound() {
+                    sound4.currentTime = 0;
+                    sound4.play();
+                }
+                </script>
+
+            </div>
+
+            <!-- Sound -->
+             <audio id="bg-music" loop>
+                <source src="music/musica-fondo.mpeg" type="audio/mpeg">
+            </audio>
+
+            <input type="range" min="0" max="1" step="0.01" value="0.5"
+            oninput="document.getElementById('bg-music').volume = this.value">
+
+            <script>
+            // Reproducir al primer clic en cualquier parte de la página
+            document.addEventListener('click', function() {
+                document.getElementById('bg-music').play();
+            }, { once: true }); // "once: true" para que solo se ejecute una vez
+            </script>
+
+            <div class="flex items-center gap-4">
+                <!-- Carrito de Compras en Nav -->
+                <button onclick="openCart()" class="cart-btn-trigger text-gray-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </button>
+
+                <div class="lang-dropdown">
+                    <button class="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full text-sm font-bold">
+                        <i class="fas fa-globe"></i> <span id="current-lang">ES</span>
+                    </button>
+                    <div class="lang-menu overflow-hidden">
+                        <button onclick="setLanguage('es')" class="block w-full px-4 py-2 hover:bg-gray-50 text-left">ES</button>
+                        <button onclick="setLanguage('en')" class="block w-full px-4 py-2 hover:bg-gray-50 text-left">EN</button>
+                    </div>
+                </div>
+                <button id="main-donate-btn" onclick="navigateTo('donate')" class="btn-primary text-white px-6 py-2 rounded-full font-bold shadow-lg" data-es="Donar" data-en="Donate">Donar</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección: INICIO (Con Carrusel) -->
+    
+    <section id="home" class="page-section active">
+        <div class="max-w-7xl mx-auto px-4 py-20 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6" data-es="Un puente de esperanza entre dos naciones" data-en="A bridge of hope between two nations">Un puente de esperanza entre dos naciones</h1>
+                <p class="text-lg text-gray-600 mb-8" data-es="Cuidamos y protegemos a los peluditos en la frontera Cúcuta-Venezuela. Cada patita cuenta una historia de valentía." data-en="We care for and protect the furry ones on the Cucuta-Venezuela border. Every paw tells a story of courage.">Cuidamos y protegemos a los peluditos en la frontera Cúcuta-Venezuela. Cada patita cuenta una historia de valentía.</p>
+                <div class="flex gap-4">
+                    <button onclick="navigateTo('adopt')" class="btn-primary text-white px-8 py-3 rounded-full font-bold text-lg" data-es="Quiero Adoptar" data-en="I want to Adopt">Quiero Adoptar</button>
+                    <button onclick="navigateTo('help')" class="border-2 border-[#A8CBB7] text-[#2F3A4A] px-8 py-3 rounded-full font-bold text-lg hover:bg-[#A8CBB7]/10" data-es="Ver Programas" data-en="View Programs">Ver Programas</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <div class="bg-[#A8CBB7] w-full aspect-square rounded-full absolute -z-10 top-0 opacity-20 blur-3xl"></div>
+                
+                <!-- Carrusel de Imágenes -->
+                <div class="carousel-container transform rotate-3">
+                    <div class="carousel-track" id="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="https://i.pinimg.com/1200x/9e/df/9b/9edf9b6c85ec664ea6da30d59993faa5.jpg" alt="foto1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://i.pinimg.com/1200x/1a/c0/4f/1ac04f03087d70ca4677200568c1e50c.jpg" alt="Gato rescatado 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://i.pinimg.com/1200x/78/b6/ac/78b6ac346f4cb4675ce996ab35ae53df.jpg" alt="Refugio entrada">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://i.pinimg.com/1200x/ea/1e/57/ea1e5736c973fbfecac37ea754d2ebe4.jpg" alt="Perro y gato juntos">
+                        </div>
+                    </div>
+                    
+                    <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+                    
+                    <div class="carousel-dots" id="carousel-dots">
+                        <div class="dot active" onclick="jumpToSlide(0)"></div>
+                        <div class="dot" onclick="jumpToSlide(1)"></div>
+                        <div class="dot" onclick="jumpToSlide(2)"></div>
+                        <div class="dot" onclick="jumpToSlide(3)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Historia del refugio mejorada -->
+<div class="max-w-6xl mx-auto px-4 pb-20">
+    
+    <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-lg">
+
+        <!-- Título -->
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center"
+            data-es="Nuestra historia"
+            data-en="Our Story">
+            Nuestra historia
+        </h2>
+
+        <!-- Frase impactante -->
+        <p class="text-center text-xl italic text-[#8FB8A4] mb-10"
+           data-es="“En medio de la crisis, decidimos ser esperanza.”"
+           data-en="“In the middle of crisis, we chose to be hope.”">
+            “En medio de la crisis, decidimos ser esperanza.”
+        </p>
+
+        <!-- Contenido con imagen -->
+        <div class="grid md:grid-cols-2 gap-10 items-center mb-10">
+
+            <!-- Texto -->
+            <div>
+                <p class="text-gray-600 leading-relaxed mb-4"
+                   data-es="En la frontera entre Cúcuta y Venezuela, donde miles de personas cruzan cada día, también hay vidas que pasan desapercibidas: animales abandonados luchando por sobrevivir."
+                   data-en="On the border between Cúcuta and Venezuela, where thousands cross daily, there are also lives that go unnoticed: abandoned animals struggling to survive.">
+                    En la frontera entre Cúcuta y Venezuela...
+                </p>
+
+                <p class="text-gray-600 leading-relaxed"
+                   data-es="La crisis migratoria dejó una huella profunda en los animales, muchos de ellos abandonados sin alimento ni refugio."
+                   data-en="The migration crisis deeply affected animals, many of them abandoned without food or shelter.">
+                    La crisis migratoria dejó una huella profunda...
+                </p>
+            </div>
+
+            <!-- Imagen -->
+            <div>
+                <img src="https://i.pinimg.com/736x/c7/05/22/c70522a13574e608849fcd6fb88e4f4a.jpg"
+                     class="rounded-2xl shadow-md w-full h-[300px] object-cover">
+            </div>
+        </div>
+
+        <!-- Segundo bloque -->
+        <div class="grid md:grid-cols-2 gap-10 items-center mb-10">
+
+            <!-- Imagen -->
+            <div class="order-2 md:order-1">
+                <img src="https://i.pinimg.com/736x/54/72/05/5472051f16ee197d0f65fa0ac1bbd672.jpg"
+                     class="rounded-2xl shadow-md w-full h-[300px] object-cover">
+            </div>
+
+            <!-- Texto -->
+            <div class="order-1 md:order-2">
+                <p class="text-gray-600 leading-relaxed mb-4"
+                   data-es="Así nació nuestro refugio, como una respuesta al dolor silencioso de cientos de animales en las calles."
+                   data-en="That’s how our shelter was born, as a response to the silent suffering of hundreds of animals.">
+                    Así nació nuestro refugio...
+                </p>
+
+                <p class="text-gray-600 leading-relaxed"
+                   data-es="Con amor, esfuerzo y apoyo de la comunidad, empezamos a rescatar, cuidar y dar segundas oportunidades."
+                   data-en="With love, effort and community support, we began rescuing, caring and giving second chances.">
+                    Con amor, esfuerzo y apoyo...
+                </p>
+            </div>
+        </div>
+
+        <!-- Cierre -->
+        <p class="text-center text-lg font-semibold text-[#2F3A4A]"
+           data-es="Hoy somos un puente entre animales que necesitan un hogar y personas dispuestas a cambiar su vida."
+           data-en="Today we are a bridge between animals in need and people willing to change their lives.">
+            Hoy somos un puente entre animales que necesitan un hogar...
+        </p>
+
+    </div>
+</div>
+    </section>
+
+    <!-- Sección: ADOPTAR -->
+    <section id="adopt" class="page-section">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <h2 class="text-4xl font-bold mb-4 text-center" data-es="Busca a tu compañero ideal" data-en="Find your ideal companion">Busca a tu compañero ideal</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-es="Nuestros rescatados esperan una familia que les brinde el amor que se merecen." data-en="Our rescues are waiting for a family to give them the love they deserve.">Nuestros rescatados esperan una familia que les brinde el amor que se merecen.</p>
+            <div id="pets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+            <div class="text-center mt-12">
+                <button id="load-more-btn" onclick="loadMorePets()" class="bg-white border-2 border-[#A8CBB7] px-8 py-3 rounded-full font-bold text-[#2F3A4A] hover:bg-[#A8CBB7] hover:text-white transition-all" data-es="Ver más peludos" data-en="See more pets">Ver más peludos</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección: AYUDA -->
+    <section id="help" class="page-section">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <h2 class="text-4xl font-bold mb-12 text-center" data-es="¿Cómo puedes ayudarnos?" data-en="How can you help us?">¿Cómo puedes ayudarnos?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card p-8 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-[#A8CBB7]/20 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-hands-helping text-3xl text-[#8FB8A4]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4" data-es="Voluntariado" data-en="Volunteering">Voluntariado</h3>
+                    <p class="text-gray-600 mb-6" data-es="Donar tu tiempo es la ayuda más valiosa que podemos recibir. Únete a nuestro equipo." data-en="Donating your time is the most valuable help we can receive. Join our team.">Donar tu tiempo es la ayuda más valiosa que podemos recibir. Únete a nuestro equipo.</p>
+                    <button onclick="openModal('volunteer-modal')" class="btn-primary text-white w-full py-3 rounded-xl font-bold" data-es="Inscribirme" data-en="Sign Up">Inscribirme</button>
+                </div>
+                <div class="card p-8 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-[#A8CBB7]/20 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-share-alt text-3xl text-[#8FB8A4]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4" data-es="Difusión" data-en="Spreading Awareness">Difusión</h3>
+                    <p class="text-gray-600 mb-6" data-es="Comparte nuestras historias en redes sociales y ayúdanos a encontrar hogares." data-en="Share our stories on social media and help us find homes.">Comparte nuestras historias en redes sociales y ayúdanos a encontrar hogares.</p>
+                    <button onclick="openModal('share-modal')" class="btn-primary text-white w-full py-3 rounded-xl font-bold" data-es="Saber más" data-en="Learn More">Saber más</button>
+                </div>
+                <div class="card p-8 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-[#A8CBB7]/20 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-bone text-3xl text-[#8FB8A4]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4" data-es="Donar Insumos" data-en="Donate Supplies">Donar Insumos</h3>
+                    <p class="text-gray-600 mb-6" data-es="Recibimos alimento, medicinas y cobijas directamente en nuestro centro." data-en="We receive food, medicine, and blankets directly at our center.">Recibimos alimento, medicinas y cobijas directamente en nuestro centro.</p>
+                    <button onclick="openModal('supplies-modal')" class="btn-primary text-white w-full py-3 rounded-xl font-bold" data-es="Ver Lista" data-en="See List">Ver Lista</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección: TIENDA -->
+    <section id="store" class="page-section">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <h3 class="text-4xl font-bold mb-4 text-center" data-es="Nuestra Tienda Solidaria" data-en="Our Solidarity Store">Nuestra Tienda Solidaria</h3>
+            <p class="text-center text-gray-500 mb-16 max-w-2xl mx-auto" data-es="Adquiere estos productos y ayúdanos a sostener los gastos del refugio. Hacemos envíos a domicilio en Cúcuta y alrededores." data-en="Purchase these products and help us sustain the shelter expenses. We offer home delivery in Cucuta and surroundings.">Adquiere estos productos y ayúdanos a sostener los gastos del refugio. Hacemos envíos a domicilio en Cúcuta y alrededores.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Producto 1 -->
+                <div class="store-item card p-4">
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                        <img src="https://i.pinimg.com/1200x/a8/72/08/a872088db07faf540b6f7d5a93ea82b7.jpg" alt="Camiseta" class="w-full h-64 object-cover">
+                    </div>
+                    <h4 class="font-bold text-lg mb-1" data-es="Camiseta Huellas" data-en="Paw T-Shirt">Camiseta Huellas</h4>
+                    <p class="text-[#8FB8A4] font-bold mb-4">$25.000</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openPurchaseModal('Camiseta Huellas', 15)" class="py-2 bg-gray-100 rounded-xl text-[11px] font-bold hover:bg-gray-200 transition-colors" data-es="Pedir Domicilio" data-en="Order Delivery">Pedir Domicilio</button>
+                        <button onclick="addToCart('Camiseta Huellas', 15, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=400')" class="py-2 bg-[#A8CBB7] text-white rounded-xl text-[11px] font-bold hover:bg-[#8FB8A4] transition-colors" data-es="Añadir al carrito" data-en="Add to cart">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="store-item card p-4">
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                        <img src="https://i.pinimg.com/1200x/cb/cd/84/cbcd840b73213f8c9cd92b4a02d15389.jpg" alt="Mug" class="w-full h-64 object-cover">
+                    </div>
+                    <h4 class="font-bold text-lg mb-1" data-es="Mug Solidario" data-en="Solidarity Mug">Mug </h4>
+                    <p class="text-[#8FB8A4] font-bold mb-4">$15.000</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openPurchaseModal('Mug Solidario', 8)" class="py-2 bg-gray-100 rounded-xl text-[11px] font-bold hover:bg-gray-200 transition-colors" data-es="Pedir Domicilio" data-en="Order Delivery">Pedir Domicilio</button>
+                        <button onclick="addToCart('Mug Solidario', 8, 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&q=80&w=400')" class="py-2 bg-[#A8CBB7] text-white rounded-xl text-[11px] font-bold hover:bg-[#8FB8A4] transition-colors" data-es="Añadir al carrito" data-en="Add to cart">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="store-item card p-4">
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                        <img src="https://i.pinimg.com/1200x/7f/9f/d9/7f9fd9d7bea7d9a83ac13265e56d691a.jpg" alt="Pañoleta" class="w-full h-64 object-cover">
+                    </div>
+                    <h4 class="font-bold text-lg mb-1" data-es="Pañoleta Peludita" data-en="Furry Bandana">Pañoleta a juego</h4>
+                    <p class="text-[#8FB8A4] font-bold mb-4">$8.000</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openPurchaseModal('Pañoleta Peludita', 6)" class="py-2 bg-gray-100 rounded-xl text-[11px] font-bold hover:bg-gray-200 transition-colors" data-es="Pedir Domicilio" data-en="Order Delivery">Pedir Domicilio</button>
+                        <button onclick="addToCart('Pañoleta Peludita', 6, 'https://images.unsplash.com/photo-1620327469772-2007876a392e?auto=format&fit=crop&q=80&w=400')" class="py-2 bg-[#A8CBB7] text-white rounded-xl text-[11px] font-bold hover:bg-[#8FB8A4] transition-colors" data-es="Añadir al carrito" data-en="Add to cart">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="store-item card p-4">
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                        <img src="https://i.pinimg.com/736x/be/a9/68/bea968f282feb3a5c8b26790c56dd290.jpg" alt="Pañoleta" class="w-full h-64 object-cover">
+                    </div>
+                    <h4 class="font-bold text-lg mb-1" data-es="Pañoleta Peludita" data-en="Furry Bandana">Pomada humectante de patitas</h4>
+                    <p class="text-[#8FB8A4] font-bold mb-4">$8.000</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openPurchaseModal('Pañoleta Peludita', 6)" class="py-2 bg-gray-100 rounded-xl text-[11px] font-bold hover:bg-gray-200 transition-colors" data-es="Pedir Domicilio" data-en="Order Delivery">Pedir Domicilio</button>
+                        <button onclick="addToCart('Pañoleta Peludita', 6, 'https://images.unsplash.com/photo-1620327469772-2007876a392e?auto=format&fit=crop&q=80&w=400')" class="py-2 bg-[#A8CBB7] text-white rounded-xl text-[11px] font-bold hover:bg-[#8FB8A4] transition-colors" data-es="Añadir al carrito" data-en="Add to cart">Añadir al carrito</button>
+                    </div>
+                </div>
+
+
+                <!-- Producto 5 -->
+                <div class="store-item card p-4">
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                        <img src="https://i.pinimg.com/736x/3f/58/ef/3f58ef409260a68552f1a6608a3eca89.jpg" alt="Llavero" class="w-full h-64 object-cover">
+                    </div>
+                    <h4 class="font-bold text-lg mb-1" data-es="Llavero Patitas" data-en="Paw Keychain">Llavero Patitas Personalizable</h4>
+                    <p class="text-[#8FB8A4] font-bold mb-4">$6.000</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openPurchaseModal('Llavero Patitas', 4)" class="py-2 bg-gray-100 rounded-xl text-[11px] font-bold hover:bg-gray-200 transition-colors" data-es="Pedir Domicilio" data-en="Order Delivery">Pedir Domicilio</button>
+                        <button onclick="addToCart('Llavero Patitas', 4, 'https://images.unsplash.com/photo-1603504336040-5a3d707f7c87?auto=format&fit=crop&q=80&w=400')" class="py-2 bg-[#A8CBB7] text-white rounded-xl text-[11px] font-bold hover:bg-[#8FB8A4] transition-colors" data-es="Añadir al carrito" data-en="Add to cart">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección: DONAR -->
+    <section id="donate" class="page-section">
+        <div class="max-w-4xl mx-auto px-4 py-12">
+            <div class="bg-white rounded-3xl p-10 shadow-xl">
+                <h2 class="text-3xl font-bold mb-2" data-es="Haz una donación económica" data-en="Make a financial donation">Haz una donación económica</h2>
+                <p class="text-gray-500 mb-8" data-es="Cada peso o bolívar se destina a alimentación y gastos médicos." data-en="Every peso or bolivar goes to food and medical expenses.">Cada peso o bolívar se destina a alimentación y gastos médicos.</p>
+                
+                <form onsubmit="handleSubmit(event, '¡Donación procesada!')">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <button type="button" class="border-2 border-gray-100 py-3 rounded-xl font-bold hover:border-[#A8CBB7]">$10 USD</button>
+                        <button type="button" class="border-2 border-gray-100 py-3 rounded-xl font-bold hover:border-[#A8CBB7]">$20 USD</button>
+                        <button type="button" class="border-2 border-gray-100 py-3 rounded-xl font-bold hover:border-[#A8CBB7]">$50 USD</button>
+                        <input type="number" placeholder="Otro" class="border-2 border-gray-100 px-4 rounded-xl font-bold focus:border-[#A8CBB7] outline-none">
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mb-8">
+                        <input type="text" placeholder="Nombre" required class="w-full bg-gray-50 p-4 rounded-xl outline-none">
+                        <input type="email" placeholder="Correo" required class="w-full bg-gray-50 p-4 rounded-xl outline-none">
+                    </div>
+                    <button class="btn-primary w-full text-white py-4 rounded-2xl font-bold text-lg shadow-lg" data-es="Confirmar Donación" data-en="Confirm Donation">Confirmar Donación</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- OVERLAY 3D (CENTRADO) -->
+    <div id="donar3d-overlay">
+        <div class="donar3d-container">
+            <div class="donar3d-close" onclick="closeDonar3D()">
+                <i class="fas fa-times"></i>
+            </div>
+
+            <div class="donar3d-canvas-wrapper">
+                <model-viewer
+                    src="model/CASA-PERRO-CAMILA.glb"
+                    alt="Casa solidaria para mascotas"
+                    auto-rotate
+                    auto-rotate-delay="0"
+                    rotation-per-second="30deg"
+                    camera-controls
+                    shadow-intensity="1"
+                    shadow-softness="1"
+                    exposure="1"
+                    environment-image="neutral"
+                    loading="eager"
+                    reveal="auto"
+                    camera-orbit="0deg 75deg 105%"
+                    field-of-view="30deg"
+                    min-field-of-view="10deg"
+                    max-field-of-view="60deg"
+                    style="width:80%; height:80%;">
+                </model-viewer>
+            </div>
+
+            <div class="donar3d-controls">
+                <h3 class="text-3xl font-bold mb-2">Hogar Solidario</h3>
+                
+                <div class="donar3d-input-group">
+                    <label class="donar3d-label">Nombre completo</label>
+                    <input type="text" id="donar3d-name-input" class="donar3d-input" placeholder="Ej: Juan Pérez" maxlength="50">
+                </div>
+
+                <div class="donar3d-input-group">
+                    <label class="donar3d-label">Correo electrónico</label>
+                    <input type="email" id="donar3d-email-input" class="donar3d-input" placeholder="Ej: juan@correo.com">
+                </div>
+
+                <div class="donar3d-input-group">
+                    <label class="donar3d-label">Número de cédula</label>
+                    <input type="number" id="donar3d-cedula-input" class="donar3d-input" placeholder="Ej: 1234567890">
+                </div>
+
+                <div class="flex items-center gap-8 justify-center mt-4">
+
+                    <div class="mastercad">
+                        <img src="img/mastercard.png" alt="MasterCard" class="card-trigger" style="cursor: pointer; width: 50px;" class="h-12 w-auto" alt="MasterCard" class="h-8 object-contain rounded-lg hover:opacity-80 transition-opacity">
+                    </div>
+                
+                    <div class="visa">
+                        <img src="img/visa.png" alt="VISA" class="card-trigger" style="cursor: pointer; width: 50px;" class="h-12 w-auto" alt="VISA" class="h-8 object-contain rounded-lg hover:opacity-80 transition-opacity">
+                    </div>
+                    
+                    <div class="nequi">
+                        <img src="img/nequi.png" alt="Nequi" class="card-trigger" style="cursor: pointer; width: 50px;" class="h-12 w-auto" alt="Nequi" class="h-8 object-contain rounded-lg hover:opacity-80 transition-opacity">
+                    </div>
+                </div>
+
+                <button onclick="confirmarDonacion3D()" class="btn-primary text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg mt-4">
+                    Confirmar
+                </button>
+                <p class="text-xs text-center text-gray-400 mt-4">Tu aporte construye refugios reales en la frontera.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARRITO DE COMPRAS -->
+    <div id="cart-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeModal('cart-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-shopping-basket text-[#A8CBB7]"></i>
+                <span data-es="Tu Carrito" data-en="Your Cart">Tu Carrito</span>
+            </h3>
+            
+            <div id="cart-items-container" class="space-y-4 max-h-64 overflow-y-auto mb-6">
+                <!-- Items del carrito aparecerán aquí -->
+            </div>
+
+            <div class="border-t pt-6">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-lg font-bold text-gray-500" data-es="Total a pagar:" data-en="Total:">Total a pagar:</span>
+                    <span id="cart-total" class="text-2xl font-bold text-[#8FB8A4]">$0.00</span>
+                </div>
+                <button onclick="processCartOrder()" class="btn-primary w-full text-white py-4 rounded-2xl font-bold text-lg shadow-lg" data-es="Finalizar Compra" data-en="Checkout">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VOLUNTARIADO -->
+    <div id="volunteer-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeModal('volunteer-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-bold mb-4" data-es="Únete al Equipo" data-en="Join the Team">Únete al Equipo</h3>
+            <form class="space-y-4" onsubmit="handleSubmit(event, '¡Inscripción enviada! Te contactaremos pronto.')">
+                <input type="text" placeholder="Nombre completo" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <input type="tel" placeholder="WhatsApp" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <textarea placeholder="¿Por qué quieres ayudar?" class="w-full p-3 bg-gray-50 rounded-lg h-24 outline-none"></textarea>
+                <button type="submit" class="btn-primary w-full text-white py-3 rounded-xl font-bold" data-es="Enviar Inscripción" data-en="Send Application">Enviar Inscripción</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DIFUSIÓN -->
+    <div id="share-modal" class="modal-overlay">
+        <div class="modal-content text-center">
+            <button onclick="closeModal('share-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-bold mb-6" data-es="Ayúdanos a Difundir" data-en="Help Us Spread the Word">Ayúdanos a Difundir</h3>
+            <p class="text-gray-600 mb-8" data-es="Siguenos y comparte nuestras publicaciones para llegar a más hogares." data-en="Follow us and share our posts to reach more homes.">Siguenos y comparte nuestras publicaciones para llegar a más hogares.</p>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="text-4xl text-pink-500"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-4xl text-blue-600"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-4xl text-blue-400"><i class="fab fa-twitter"></i></a>
+            </div>
+            <button onclick="closeModal('share-modal')" class="btn-primary text-white px-8 py-2 rounded-full font-bold">Entendido</button>
+        </div>
+    </div>
+
+    <!-- INSUMOS -->
+    <div id="supplies-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeModal('supplies-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-bold mb-6" data-es="Lista de Insumos" data-en="Supplies List">Lista de Insumos</h3>
+            <ul class="space-y-3 text-gray-600 mb-8">
+                <li>• Alimento seco y húmedo</li>
+                <li>• Medicinas (Desparasitantes, etc.)</li>
+                <li>• Cobijas y camas</li>
+                <li>• Productos de limpieza</li>
+            </ul>
+            <form onsubmit="handleSubmit(event, '¡Mensaje recibido! Nos coordinaremos.')">
+                <input type="tel" placeholder="Tu WhatsApp para coordinar" required class="w-full p-3 bg-gray-50 rounded-lg mb-4 outline-none">
+                <button type="submit" class="btn-primary w-full text-white py-3 rounded-xl font-bold" data-es="Quiero Donar Insumos" data-en="I Want to Donate Supplies">Quiero Donar Insumos</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PEDIDO TIENDA -->
+    <div id="purchase-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeModal('purchase-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-bold mb-2" data-es="Pedido a Domicilio" data-en="Home Delivery Order">Pedido a Domicilio</h3>
+            <p id="selected-product-text" class="text-[#8FB8A4] font-bold mb-6"></p>
+            <form class="space-y-4" onsubmit="handleSubmit(event, '¡Pedido recibido! Te llamaremos pronto para el envío.')">
+                <input type="text" placeholder="Nombre completo" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <input type="tel" placeholder="Teléfono" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <input type="text" placeholder="Dirección en Cúcuta" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <button type="submit" class="btn-primary w-full text-white py-3 rounded-xl font-bold" data-es="Confirmar Pedido" data-en="Confirm Order">Confirmar Pedido</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADOPCIÓN -->
+    <div id="adopt-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeModal('adopt-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-bold mb-6" data-es="Solicitud de Adopción" data-en="Adoption Request">Solicitud de Adopción</h3>
+            <form class="space-y-4" onsubmit="handleSubmit(event, '¡Solicitud enviada! Nos contactaremos pronto.')">
+                <input type="text" placeholder="Nombre completo" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <input type="tel" placeholder="WhatsApp" required class="w-full p-3 bg-gray-50 rounded-lg outline-none">
+                <textarea placeholder="¿Por qué quieres adoptar?" class="w-full p-3 bg-gray-50 rounded-lg h-32 outline-none"></textarea>
+                <button type="submit" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Enviar Solicitud</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ÉXITO -->
+    <div id="success-overlay" class="modal-overlay">
+        <div class="modal-content text-center py-12">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-3xl"></i>
+            </div>
+            <h3 id="success-msg" class="text-2xl font-bold mb-4">¡Éxito!</h3>
+            <button onclick="closeModal('success-overlay')" class="btn-primary text-white px-8 py-2 rounded-full font-bold">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Botón Flotante WA -->
+    <a href="https://wa.me/573000000000" target="_blank" class="wa-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Partículas
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#A8CBB7", "#8FB8A4", "#ffffff"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.3, "random": true },
+                "size": { "value": 4, "random": true },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false } } },
+            "retina_detect": true
+        });
+
+        // --- LÓGICA DEL CARRUSEL ---
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const track = document.getElementById('carousel-track');
+        const dots = document.getElementById('carousel-dots').children;
+
+        function updateCarousel() {
+            if(!track) return;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            // Actualizar dots
+            Array.from(dots).forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function moveCarousel(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function jumpToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        setInterval(() => moveCarousel(1), 5000);
+
+        // --- LÓGICA DEL CARRITO ---
+        let cart = [];
+        function addToCart(name, price, img) {
+            cart.push({ id: Date.now(), name, price, img });
+            updateCartUI();
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "¡Añadido!";
+            btn.style.background = "#8FB8A4";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "";
+            }, 1000);
+        }
+
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            countEl.innerText = cart.length;
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-400 py-8">Tu carrito está vacío</p>`;
+                totalEl.innerText = "$0.00";
+                return;
+            }
+            let html = ""; let total = 0;
+            cart.forEach(item => {
+                total += item.price;
+                html += `
+                    <div class="flex items-center justify-between bg-gray-50 p-3 rounded-xl">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.img}" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <h4 class="font-bold text-sm">${item.name}</h4>
+                                <p class="text-xs text-[#8FB8A4] font-bold">$${item.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600 p-2">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            totalEl.innerText = `$${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function openCart() { updateCartUI(); openModal('cart-modal'); }
+        function processCartOrder() {
+            if (cart.length === 0) return;
+            closeModal('cart-modal');
+            handleSubmit({ preventDefault: () => {}, target: { reset: () => {} } }, '¡Pedido recibido!');
+            cart = []; updateCartUI();
+        }
+
+        // Idioma
+        let currentLang = 'es';
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('current-lang').innerText = lang.toUpperCase();
+            document.querySelectorAll('[data-es]').forEach(el => {
+                el.innerText = el.getAttribute(`data-${lang}`);
+            });
+        }
+
+        // Navegación
+        function navigateTo(sectionId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Modales
+        function openModal(id) { const el = document.getElementById(id); el.style.display = 'flex'; el.style.pointerEvents = 'all'; }
+        function closeModal(id) { 
+            const el = document.getElementById(id); 
+            el.style.display = 'none'; 
+            el.style.pointerEvents = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function openPurchaseModal(product, price) { document.getElementById('selected-product-text').innerText = `${product} - $${price}.00 USD`; openModal('purchase-modal'); }
+
+        // FUNCIÓN CORREGIDA PARA MANEJAR EVENTOS MANUALES Y DE FORMULARIO
+        function handleSubmit(e, msg) {
+            if (e && e.preventDefault) e.preventDefault();
+            
+            document.getElementById('success-msg').innerText = msg;
+            openModal('success-overlay');
+            
+            // Cerrar el modal de origen de forma segura
+            if (e && e.target && typeof e.target.closest === 'function') {
+                const overlay = e.target.closest('.modal-overlay');
+                if (overlay) overlay.style.display = 'none';
+                if (e.target.reset) e.target.reset();
+            }
+        }
+
+        // Mascotas Dinámicas
+        const petNames = ["Luna", "Thor", "Canela", "Max", "Kira", "Bruno", "Mila", "Rocky", "Nala", "Simba"];
+        let petsLoaded = 0;
+        function loadMorePets() {
+            const grid = document.getElementById('pets-grid');
+            if(!grid) return;
+            for (let i = 0; i < 8; i++) {
+                const name = petNames[petsLoaded % petNames.length];
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="https://placedog.net/500/500?id=${10 + petsLoaded}" alt="${name}" class="w-full h-48 object-cover">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold mb-1">${name}</h3>
+                            <p class="text-sm text-gray-500 mb-6">Mestizo • Rescatado</p>
+                            <button onclick="openModal('adopt-modal')" class="w-full btn-primary text-white py-2 rounded-xl font-bold" data-es="Adoptar" data-en="Adopt">Adoptar</button>
+                        </div>
+                    </div>
+                `;
+                petsLoaded++;
+            }
+            if(petsLoaded > 20) document.getElementById('load-more-btn').style.display = 'none';
+            setLanguage(currentLang);
+        }
+
+        function openDonar3D() {
+            document.getElementById('donar3d-overlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            setTimeout(initDonar3D, 50);
+        }
+
+        function closeDonar3D() {
+            document.getElementById('donar3d-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function confirmarDonacion3D() {
+            const nameInput = document.getElementById('donar3d-name-input');
+            const name = nameInput.value || "un peludito";
+            
+            // Cerrar el overlay 3D antes de procesar el éxito
+            closeDonar3D();
+            
+            // Simular envío llamando a handleSubmit con objeto mock que no rompa la lógica
+            handleSubmit({ 
+                preventDefault: () => {}, 
+                target: { reset: () => { if(nameInput) nameInput.value = ''; } } 
+            }, `¡Gracias! Tu casita para ${name} está en camino.`);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const donateBtn = document.getElementById('main-donate-btn');
+            if (donateBtn) {
+                donateBtn.removeAttribute('onclick');
+                donateBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openDonar3D();
+                });
+            }
+            loadMorePets();
+        });
+
+        window.addEventListener('resize', () => {
+            if (!is3DInit) return;
+            const container = document.getElementById('donar3d-canvas-container');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    </script>
+
+    <!-- Modal de tarjeta-->>
+    <div id="card-modal" class="modal-overlay" 
+        style="display: none; position: fixed !important; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999 !important; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center;">
+        
+        <div class="modal-content" style="position: relative; z-index: 1000000; max-width: 500px; width: 90%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <button onclick="closeModal('card-modal')" class="donar3d-close" style="top: 15px; right: 15px; position: absolute; z-index: 10; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <iframe src="view/tarjeta-form.html" width="100%" height="550px" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seleccionamos todos los elementos con la clase card-trigger
+            const triggers = document.querySelectorAll('.card-trigger');
+            
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    openModal('card-modal');
+                });
+            });
+        });
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = 'flex';
+                // Esto evita que la página de fondo se mueva
+                document.body.style.overflow = 'hidden'; 
+            }
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>

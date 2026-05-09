@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario de Tarjeta</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f4f4f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #1a1a2e;
+      margin-bottom: 1.75rem;
+    }
+
+    /* ── Tarjeta preview ── */
+    .card-preview {
+      width: 100%;
+      aspect-ratio: 1.586;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      position: relative;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      border: 0.5px solid rgba(255,255,255,0.08);
+    }
+
+    .card-preview::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .card-preview::after {
+      content: '';
+      position: absolute; bottom: -80px; left: 20px;
+      width: 260px; height: 260px; border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .chip {
+      width: 38px; height: 28px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #d4af37, #f9e08a, #c5971c);
+      border: 0.5px solid rgba(255,255,255,0.2);
+    }
+
+    .card-network {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px; font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 1px;
+      text-align: right;
+      line-height: 1.1;
+    }
+
+    .card-number {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(14px, 4vw, 18px);
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 1.5rem;
+      word-spacing: 8px;
+    }
+
+    .card-bottom { display: flex; gap: 2rem; }
+
+    .card-field-label {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+    }
+
+    .card-field-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── Formulario ── */
+    .form-section { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .field-group label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .field-group input {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      letter-spacing: 1.5px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid #e0e0d8;
+      background: #fafafa;
+      color: #1a1a2e;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+      width: 100%;
+    }
+
+    .field-group input:focus {
+      border-color: #0f3460;
+      background: #fff;
+    }
+
+    .field-group input::placeholder {
+      color: #bbb;
+      letter-spacing: 1px;
+    }
+
+    .field-group input.error { border-color: #e24b4a; }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .network-badge {
+      display: none;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: #e6f1fb;
+      color: #185fa5;
+      margin-top: 4px;
+      width: fit-content;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #0f3460;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover { opacity: 0.88; }
+    .submit-btn:active { transform: scale(0.99); }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+      background: #eaf3de;
+      color: #3b6d11;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Agregar tarjeta de pago</h1>
+
+  <!-- Vista previa -->
+  <div class="card-preview">
+    <div class="card-top">
+      <div class="chip"></div>
+      <div class="card-network" id="cardNetwork">••••</div>
+    </div>
+    <div class="card-number" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+    <div class="card-bottom">
+      <div>
+        <div class="card-field-label">Titular</div>
+        <div class="card-field-value" id="cardNameDisplay">Nombre completo</div>
+      </div>
+      <div>
+        <div class="card-field-label">Vence</div>
+        <div class="card-field-value" id="cardExpDisplay">MM/AA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="form-section">
+
+    <div class="field-group">
+      <label for="cardNumber">Número de tarjeta</label>
+      <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number"/>
+      <span class="network-badge" id="networkBadge"></span>
+    </div>
+
+    <div class="field-group">
+      <label for="cardName">Nombre del titular</label>
+      <input type="text" id="cardName" placeholder="Como aparece en la tarjeta" maxlength="26" autocomplete="cc-name" style="font-family:'DM Sans',sans-serif; letter-spacing:0.5px;"/>
+    </div>
+
+    <div class="row-2">
+      <div class="field-group">
+        <label for="cardExp">Vencimiento</label>
+        <input type="text" id="cardExp" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="cc-exp"/>
+      </div>
+      <div class="field-group">
+        <label for="cardCvv">CVV</label>
+        <input type="text" id="cardCvv" placeholder="•••" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="handleSubmit()">
+      <i class="ti ti-lock"></i>
+      Guardar tarjeta
+    </button>
+
+    <div class="success-msg" id="successMsg">
+      <i class="ti ti-circle-check"></i>
+      ¡Tarjeta guardada correctamente!
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const numInput  = document.getElementById('cardNumber');
+  const nameInput = document.getElementById('cardName');
+  const expInput  = document.getElementById('cardExp');
+  const cvvInput  = document.getElementById('cardCvv');
+
+  const numDisplay  = document.getElementById('cardNumberDisplay');
+  const nameDisplay = document.getElementById('cardNameDisplay');
+  const expDisplay  = document.getElementById('cardExpDisplay');
+  const networkEl   = document.getElementById('cardNetwork');
+  const badgeEl     = document.getElementById('networkBadge');
+
+  function detectNetwork(num) {
+    const n = num.replace(/\s/g, '');
+    if (/^4/.test(n))      return 'VISA';
+    if (/^5[1-5]/.test(n)) return 'MASTERCARD';
+    if (/^3[47]/.test(n))  return 'AMEX';
+    if (/^6011/.test(n))   return 'DISCOVER';
+    return '';
+  }
+
+  numInput.addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 16);
+    let fmt = v.match(/.{1,4}/g)?.join(' ') || '';
+    e.target.value = fmt;
+    const parts = v.padEnd(16, '•').match(/.{1,4}/g);
+    numDisplay.textContent = parts.join(' ');
+    const net = detectNetwork(v);
+    networkEl.textContent = net || '••••';
+    if (net) {
+      badgeEl.textContent = net;
+      badgeEl.style.display = 'inline-block';
+    } else {
+      badgeEl.style.display = 'none';
+    }
+  });
+
+  nameInput.addEventListener('input', e => {
+    const v = e.target.value.toUpperCase().slice(0, 22);
+    e.target.value = v;
+    nameDisplay.textContent = v || 'Nombre completo';
+  });
+
+  expInput.addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+    if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+    e.target.value = v;
+    expDisplay.textContent = v || 'MM/AA';
+  });
+
+  cvvInput.addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+  });
+
+  function handleSubmit() {
+    const num  = numInput.value.replace(/\s/g, '');
+    const name = nameInput.value.trim();
+    const exp  = expInput.value;
+    const cvv  = cvvInput.value;
+
+    let valid = true;
+
+    [
+      [numInput,  num.length >= 13],
+      [nameInput, name.length > 0],
+      [expInput,  exp.length === 5],
+      [cvvInput,  cvv.length >= 3],
+    ].forEach(([el, ok]) => {
+      el.classList.toggle('error', !ok);
+      if (!ok) valid = false;
+    });
+
+    if (!valid) return;
+
+    document.getElementById('successMsg').style.display = 'block';
+    [numInput, nameInput, expInput, cvvInput].forEach(el => el.classList.remove('error'));
+  }
+</script>
+
+</body>
+</html>

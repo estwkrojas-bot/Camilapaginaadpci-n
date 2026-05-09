@@ -1,0 +1,18 @@
+.donar3d-controls{
+    background-color: rgb(225, 222, 236);
+}
+
+.modal-overlay{
+    z-index: 9999;
+}
+
+.donar3d-container{
+    height: 550px;
+}
+
+.flex items-center gap-8 justify-center mt-4con{
+    display: flex;
+    border: 5px black;
+    gap: 32px;
+    width: 50px;
+}
